@@ -8,6 +8,7 @@ const HomeController = require('./app/Controllers/HomeController')
 const UsersController = require('./app/Controllers/UsersController')
 const QuestionsController = require('./app/Controllers/QuestionsController')
 const AnswersController = require('./app/Controllers/AnswersController')
+const SearchController = require('./app/Controllers/SearchController')
 const SubscriptionsController = require('./app/Controllers/SubscriptionsController')
 
 const logger = winston.createLogger({
@@ -38,6 +39,7 @@ module.exports = app => {
     })
 
     app.use('/', HomeController)
+    app.use('/api/v1/search', SearchController)
     app.use('/api/v1/auth', AuthController)
     app.use('/api/v1/questions', AuthMiddleware, QuestionsController)
     app.use('/api/v1/answers', AuthMiddleware, AnswersController)

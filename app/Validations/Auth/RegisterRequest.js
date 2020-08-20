@@ -10,8 +10,6 @@ module.exports = [
 
          let user = await User.find({email: value}).exec()
 
-         console.log(user)
-
          if(user.length)
             throw new Error('This email already exists. Please choose another email.')
 

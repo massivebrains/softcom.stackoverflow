@@ -76,8 +76,12 @@ module.exports = {
 			if(!user || !Bcrypt.compareSync(payload.password, user.password))
 				return reject('Invalid email or password')
 
+			if(user.status == 'inactive')
+				return reject('Your account is currently inactive. Behave.')
+			
 			let jwt_payload = {
 
+				id: user._id,
 				name: user.name,
 				email: user.email,
 				status: user.status,

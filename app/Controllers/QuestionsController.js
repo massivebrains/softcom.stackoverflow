@@ -1,11 +1,109 @@
 const express = require('express')
 var router = express.Router()
+const helpers = require('../Utils/Helpers')
+const { validationResult } = require('express-validator')
+const AskRequest = require('../Validations/Questions/AskRequest')
+const VoteRequest = require('../Validations/Questions/VoteRequest')
+const AnswerRequest = require('../Validations/Questions/AnswerRequest')
+const QuestionService = require('../Services/QuestionService')
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res, next) => {
 
-	console.log(req.user)
+	try{
+
+        let questions = await QuestionService.getAll()
+
+        return res.json({
+
+            status: true, 
+            message: `Questions retrieved successfully.`, 
+            data: questions 
+
+        })
+
+    }catch(ex){
+
+        next(ex)
+    }
 	
-    return res.json({ status: true, message: 'softcom.stackoverflow.com is running as expected', data: null })
+})
+
+router.post('/ask', AskRequest, async (req, res, next) => {
+
+	try{
+
+		const errors = validationResult(req)
+
+        if (!errors.isEmpty())
+            return res.status(422).json(helpers.validation(errors.array()))
+
+        let question = await QuestionService.create(req.body, req.user)
+
+        return res.status(201).json({
+
+            status: true, 
+            message: `Your question has now being posted successfully.`, 
+            data: question 
+
+        })
+
+    }catch(ex){
+
+        next(ex)
+    }
+	
+})
+
+router.post('/vote', VoteRequest, async (req, res, next) => {
+
+    try{
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty())
+            return res.status(422).json(helpers.validation(errors.array()))
+
+        let question = await QuestionService.vote(req.body, req.user)
+
+        return res.status(201).json({
+
+            status: true, 
+            message: `Your vote has been successfully logged.`, 
+            data: question 
+
+        })
+
+    }catch(ex){
+
+        next(ex)
+    }
+    
+})
+
+router.post('/answer', AnswerRequest, async (req, res, next) => {
+
+    try{
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty())
+            return res.status(422).json(helpers.validation(errors.array()))
+
+        let question = await QuestionService.answer(req.body, req.user)
+
+        return res.status(201).json({
+
+            status: true, 
+            message: `Your answer has been successfully logged.`, 
+            data: question 
+
+        })
+
+    }catch(ex){
+
+        next(ex)
+    }
+    
 })
 
 module.exports = router
