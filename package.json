@@ -4,7 +4,8 @@
     "description": "This is a backend assestment for olaiya segun",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
+        "heroku-prebuild": "npm install pm2 -g",
+        "start": "pm2-runtime start ecosystem.config.js --env production"
         "test": "node ace test"
     },
     "keywords": [
