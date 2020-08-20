@@ -24,9 +24,7 @@ SendEmailQueue.process(async job => {
 			message.bcc = 'vadeshayo@gmail.com'
 
 		let response = await sendgrid.send(message)
-
-		console.log(response)
-
+		
 	}catch(ex){
 
 		console.log(response)
