@@ -3,7 +3,7 @@ const User = mongoose.model('User')
 const OTP = mongoose.model('OTP')
 const Bcrypt = require('bcryptjs')
 const Helpers = require('../Utils/Helpers')
-const Email = require('../Utils/Email')
+const SendEmailJob = require('../Jobs/SendEmailJob')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -34,7 +34,8 @@ module.exports = {
 
 			let subject = 'You are one step away from activating your email on softcom.stackoverflow.com'
 			let html = `Welcome to softcom.stackoverflow.com! <br> <br> To activate your account, use the OTP below <br> <br> <h1> ${otp.otp}`
-			await Email.send({to: user.email, subject, html })
+
+			SendEmailJob.push({to: user.email, subject, html })
 
 			resolve(user)
 		})

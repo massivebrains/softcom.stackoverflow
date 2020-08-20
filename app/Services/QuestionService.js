@@ -5,7 +5,7 @@ const Vote = mongoose.model('Vote')
 const Answer = mongoose.model('Answer')
 const Subscription = mongoose.model('Subscription')
 const SubscriptionService = require('./SubscriptionService')
-const Email = require('../Utils/Email')
+const SendEmailJob = require('../Jobs/SendEmailJob')
 const relationships = ['answers', 'votes', 'views', 'subscriptions']
 
 module.exports = {
@@ -50,7 +50,7 @@ module.exports = {
 			question = await question.save()
 
 			let subject = `Your question  has been posted on softcom.stackoverflow.com - ${question.title}`
-			await Email.send({to: user.email, subject, html: subject })
+			SendEmailJob.push({to: user.email, subject, html: subject })
 
 			resolve(question)
 		})

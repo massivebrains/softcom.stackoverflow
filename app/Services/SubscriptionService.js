@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Question = mongoose.model('Question')
 const User = mongoose.model('User')
 const Subscription = mongoose.model('Subscription')
-const Email = require('../Utils/Email')
+const SendEmailJob = require('../Jobs/SendEmailJob')
 
 module.exports = {
 
@@ -17,7 +17,7 @@ module.exports = {
 
 			question = await Question.findById(payload.question_id).exec()
 
-			subscription = await Subscription.find({user, question}).exec()
+			subscription = await Subscription.findOne({user, question}).exec()
 
 			if(subscription)
 				return reject('You have already subscribed to this question')
@@ -74,7 +74,7 @@ module.exports = {
 				let subject = `A new answer has been posted for question: ${question.title}`
 				let html = `Answer: ${answer.answer}`
 
-				await Email.send({to: row.user.email, subject, html })
+				SendEmailJob.push({to: row.user.email, subject, html })
 			})
 			
 			resolve(true)
