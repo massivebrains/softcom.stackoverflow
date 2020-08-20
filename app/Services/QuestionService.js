@@ -3,7 +3,10 @@ const Question = mongoose.model('Question')
 const User = mongoose.model('User')
 const Vote = mongoose.model('Vote')
 const Answer = mongoose.model('Answer')
+const Subscription = mongoose.model('Subscription')
+const SubscriptionService = require('./SubscriptionService')
 const Email = require('../Utils/Email')
+const relationships = ['answers', 'votes', 'views', 'subscriptions']
 
 module.exports = {
 
@@ -14,6 +17,16 @@ module.exports = {
 			let questions = await Question.find().sort('-date').exec()
 
 			resolve(questions)
+		})
+	},
+
+	single: async (id) => {
+
+		return new Promise(async (resolve, reject) => {
+
+			let question = await Question.findById(id).populate(relationships).exec()
+
+			resolve(question)
 		})
 	},
 
@@ -78,7 +91,7 @@ module.exports = {
 					votes: vote
 				}
 
-			}, {new: true}).exec()
+			}, {new: true}).populate(relationships).exec()
 
 			resolve(question)
 		})
@@ -111,7 +124,9 @@ module.exports = {
 					answers: answer
 				}
 
-			}, {new: true}).populate(['answers', 'votes']).exec()
+			}, {new: true}).populate(relationships).exec()
+
+			await SubscriptionService.notify(question, answer)
 
 			resolve(question)
 		})

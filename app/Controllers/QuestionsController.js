@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator')
 const AskRequest = require('../Validations/Questions/AskRequest')
 const VoteRequest = require('../Validations/Questions/VoteRequest')
 const AnswerRequest = require('../Validations/Questions/AnswerRequest')
+const SubscribeRequest = require('../Validations/Questions/SubscribeRequest')
 const QuestionService = require('../Services/QuestionService')
 
 router.get('/', async (req, res, next) => {
@@ -26,6 +27,27 @@ router.get('/', async (req, res, next) => {
         next(ex)
     }
 	
+})
+
+router.get('/single/:id', async (req, res, next) => {
+
+    try{
+
+        let question = await QuestionService.single(req.params.id)
+
+        return res.json({
+
+            status: true, 
+            message: `Question retrieved successfully.`, 
+            data: question
+
+        })
+
+    }catch(ex){
+
+        next(ex)
+    }
+    
 })
 
 router.post('/ask', AskRequest, async (req, res, next) => {
@@ -105,5 +127,7 @@ router.post('/answer', AnswerRequest, async (req, res, next) => {
     }
     
 })
+
+
 
 module.exports = router

@@ -10,11 +10,13 @@ var Schema = new mongoose.Schema({
 
     tags: {type: String },
 
-    views: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Views' }],
+    views: [{ type: mongoose.Schema.Types.ObjectId, ref: 'View' }],
 
     answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Answer' }],
 
     votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Vote' }],
+
+    subscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subscription' }],
 
 }, { timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'} })
 
