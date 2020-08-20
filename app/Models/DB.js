@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 
-mongoose.connect('mongodb+srv://massivebrains:Adeshola18@cluster0.jg6iq.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (error) => {
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (error) => {
 
     if (error) {
 

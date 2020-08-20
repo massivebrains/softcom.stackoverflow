@@ -1,15 +1,36 @@
 {
-  "dependencies": {
-    "@sendgrid/mail": "^7.2.3",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "bull": "^3.18.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.6.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.0",
-    "winston": "^3.3.3"
-  }
+    "name": "softcom-stackoverflow-olaiya-segun",
+    "version": "1.0.0",
+    "description": "This is a backend assestment for olaiya segun",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "node ace test"
+    },
+    "keywords": [
+        "stackoverflow",
+        "backend",
+        "softcom"
+    ],
+    "author": "Olaiya Segun <segun.olaiya.dev@gmail.com|massive_brains>",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "@sendgrid/mail": "^7.2.3",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "bull": "^3.18.0",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.6.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.10.0",
+        "winston": "^3.3.3"
+    },
+
+    "engines": {
+        "node": "12.x"
+    }
+
 }
