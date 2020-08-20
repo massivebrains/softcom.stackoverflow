@@ -9,9 +9,11 @@ module.exports = {
 
 		return new Promise(async (resolve, reject) => {
 
-			let question_query = Question.find({title: param, body: param}).lean().exec()
-			let answers_query = Answer.find({answer: param}).lean().exec()
-			let users_query = User.find({name: param, email: param}).lean().exec()
+			let regex = {$regex: `.*${param}.*`, $options: 'i'} 
+
+			let question_query = Question.find({ title: regex }).limit(10).exec()
+			let answers_query = Answer.find({answer: regex }).limit(10).exec()
+			let users_query = User.find({name: regex, email: regex }).limit(10).exec()
 
 			let promises = [question_query, answers_query, users_query]
 
